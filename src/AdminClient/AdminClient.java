@@ -1,7 +1,7 @@
 
-package banksystem;
+package AdminClient;
 
-public class Banksystem {
+public class AdminClient {
 
     public static void main(String[] args) {
         
