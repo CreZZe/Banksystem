@@ -1,3 +1,6 @@
+/*
+ * JavaUtveckling 2018
+ */
 package CustomerClient;
 
 import java.io.FileInputStream;
@@ -7,12 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class Customer_Repository {
+public class Category_Repository {
 
     private Connection con;
     private Properties p = new Properties();
 
-    public Customer_Repository() {
+    public Category_Repository() {
 
         try {
             p.load(new FileInputStream("src/Banksystem/Settings.properties"));
@@ -22,8 +25,8 @@ public class Customer_Repository {
         }
     }
 
-    public Customer getCustomerByAccountId(int loanId) {
-        Customer customer = new Customer();
+    public Category getCategoryByAccountId(int loanId) {
+        Category category = new Category();
         ResultSet rs = null;
         String query = "select country.id, country.name from country inner join child on child.countryId=country.id where child.id = ?";
 
@@ -36,12 +39,11 @@ public class Customer_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
-                                        rs.getString(""), rs.getString(""), rs.getInt(""));
+                category = new Category(rs.getInt("id"), rs.getString("SSN"), rs.getDouble("name"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return customer;
+        return category;
     }
 }

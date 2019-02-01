@@ -1,4 +1,8 @@
-package CustomerClient;
+/*
+ * JavaUtveckling 2018
+ */
+
+package AdminClient;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
