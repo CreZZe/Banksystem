@@ -1,6 +1,13 @@
 
-package CustomerClient;
+package CustomerClient.Repository;
 
+import CustomerClient.Models.Account;
+import CustomerClient.Models.Category;
+import CustomerClient.Models.Customer;
+import CustomerClient.Models.Employee;
+import CustomerClient.Repository.Category_Repository;
+import CustomerClient.Repository.Customer_Repository;
+import CustomerClient.Repository.Employee_Repository;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;

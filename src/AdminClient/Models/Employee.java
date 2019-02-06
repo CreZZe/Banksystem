@@ -2,7 +2,7 @@
  * JavaUtveckling 2018
  */
 
-package AdminClient;
+package AdminClient.Models;
 
 public class Employee {
 

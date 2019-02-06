@@ -1,9 +1,8 @@
-/*
- * JavaUtveckling 2018
- */
 
-package AdminClient;
+package CustomerClient.Models;
 
+import CustomerClient.Models.Customer;
+import CustomerClient.Models.Employee;
 import java.sql.Date;
 
 public class Account {

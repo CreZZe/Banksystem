@@ -1,5 +1,10 @@
-package CustomerClient;
+/*
+ * JavaUtveckling 2018
+ */
 
+package CustomerClient.Repository;
+
+import CustomerClient.Models.Employee;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,12 +12,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class Customer_Repository {
+
+public class Employee_Repository {
 
     private Connection con;
     private Properties p = new Properties();
 
-    public Customer_Repository() {
+    public Employee_Repository() {
 
         try {
             p.load(new FileInputStream("src/Banksystem/Settings.properties"));
@@ -22,10 +28,10 @@ public class Customer_Repository {
         }
     }
 
-    public Customer getCustomerByAccountId(int loanId) {
-        Customer customer = new Customer();
+    public Employee getEmployeeByAccountId(int loanId) {
+        Employee employee = new Employee();
         ResultSet rs = null;
-        String query = "select country.id, country.name from country inner join child on child.countryId=country.id where child.id = ?";
+        String query = "select employee.id, employee.firstname from country inner join child on child.countryId=country.id where child.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -36,12 +42,11 @@ public class Customer_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
-                                        rs.getString(""), rs.getString(""), rs.getInt(""));
+                employee = new Employee(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return customer;
+        return employee;
     }
 }

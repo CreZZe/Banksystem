@@ -1,8 +1,5 @@
-/*
- * JavaUtveckling 2018
- */
 
-package AdminClient;
+package CustomerClient.Models;
 
 public class Customer {
 
@@ -13,9 +10,10 @@ public class Customer {
     private String telephoneNr;
     private String email;
     private int pincode;
+    private Employee employee;
     
     public Customer(int id, String SSN, String firstname, String lastname, String telephoneNr, 
-            String email, int pincode){
+            String email, int pincode, Employee employee){
 
         this.id = id;
         this.SSN = SSN;
@@ -24,6 +22,7 @@ public class Customer {
         this.telephoneNr = telephoneNr;
         this.email = email;
         this.pincode = pincode;
+        this.employee = employee;
     }
 
     public Customer(){}
@@ -74,5 +73,12 @@ public class Customer {
 
     public void setPincode(int pincode) {
         this.pincode = pincode;
+    }
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

@@ -2,7 +2,7 @@
  * JavaUtveckling 2018
  */
 
-package AdminClient;
+package CustomerClient.Models;
 
 
 public class Category {

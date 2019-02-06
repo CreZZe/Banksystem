@@ -2,7 +2,7 @@
  * JavaUtveckling 2018
  */
 
-package CustomerClient;
+package CustomerClient.Models;
 
 
 public class Employee {

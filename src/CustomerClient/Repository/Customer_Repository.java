@@ -1,9 +1,6 @@
-/*
- * JavaUtveckling 2018
- */
+package CustomerClient.Repository;
 
-package AdminClient;
-
+import CustomerClient.Models.Customer;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;

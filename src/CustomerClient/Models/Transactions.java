@@ -1,8 +1,7 @@
 /*
  * JavaUtveckling 2018
  */
-
-package AdminClient;
+package CustomerClient.Models;
 
 import java.sql.Date;
 

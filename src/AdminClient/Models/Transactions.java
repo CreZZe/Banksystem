@@ -1,8 +1,10 @@
 /*
  * JavaUtveckling 2018
  */
-package CustomerClient;
 
+package AdminClient.Models;
+
+import AdminClient.Models.Account;
 import java.sql.Date;
 
 public class Transactions {
