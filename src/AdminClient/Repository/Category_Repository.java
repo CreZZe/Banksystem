@@ -20,7 +20,8 @@ public class Category_Repository {
     public Category_Repository() {
 
         try {
-            p.load(new FileInputStream("src/Banksystem/Settings.properties"));
+            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
+                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,7 +63,7 @@ public class Category_Repository {
     public Category getCategoryByAccountId(int accountId) {
         Category category = new Category();
         ResultSet rs = null;
-        String query = "select category.id, country.name, category.interest, category.amortization from category "
+        String query = "select category.id, category.name, category.interest, category.amortization from category "
                 + "inner join accounts on accounts.categoryId=category.id where accounts.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -80,6 +81,7 @@ public class Category_Repository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("fångade category");
         return category;
     }
 }

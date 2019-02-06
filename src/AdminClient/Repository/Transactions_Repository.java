@@ -28,7 +28,8 @@ public class Transactions_Repository {
     public Transactions_Repository() {
 
         try {
-            p.load(new FileInputStream("src/Banksystem/Settings.properties"));
+            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
+                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +97,7 @@ public class Transactions_Repository {
         return transaction;
     }
 
-    public String withdrawTransaction(double amount, int accountId) {
+    public String withdrawTransaction(int accountId, double amount) {
 
         ResultSet rs = null;
         String query = "call withdraw(?,?)";
@@ -107,8 +108,8 @@ public class Transactions_Repository {
                 p.getProperty("password"));
                 CallableStatement stmt = con.prepareCall(query)) {
 
-            stmt.setDouble(1, amount);
-            stmt.setInt(2, accountId);
+            stmt.setInt(1, accountId);
+            stmt.setDouble(2, amount);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 errormessage = rs.getString("error");
@@ -129,8 +130,8 @@ public class Transactions_Repository {
     //men samtidigt som en trigger uppdatera summan på kontot på relevant sätt
     //kanske en IF category loan behövs för att påverkan ska vara annorlunda
     //
-    public String depositTransaction(double amount, int accountId) {
-
+    public String depositTransaction(int accountId, double amount) {
+        System.out.println("hejpls");
         ResultSet rs = null;
         String query = "call deposit(?,?)";
         String errormessage = "";
@@ -139,9 +140,9 @@ public class Transactions_Repository {
                 p.getProperty("name"),
                 p.getProperty("password"));
                 CallableStatement stmt = con.prepareCall(query)) {
-
-            stmt.setDouble(1, amount);
-            stmt.setInt(2, accountId);
+            System.out.println("halvvägs igen");
+            stmt.setInt(1, accountId);
+            stmt.setDouble(2, amount);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 errormessage = rs.getString("error");
@@ -155,6 +156,7 @@ public class Transactions_Repository {
             e.printStackTrace();
             return "Could not delete account";
         }
+        System.out.println("lolele");
         return "Account was successfully deleted from the database.";
     }
 }

@@ -4,7 +4,9 @@
 
 package AdminClient.Controller;
 
+import AdminClient.Models.Account;
 import AdminClient.Models.Customer;
+import AdminClient.Models.Employee;
 import AdminClient.Repository.Customer_Repository;
 import AdminClient.Repository.Category_Repository;
 import AdminClient.Repository.Account_Repository;
@@ -20,6 +22,14 @@ public class AdminController { //Se över användandet av String vs voidmetoder
     Employee_Repository er = new Employee_Repository();
     Transactions_Repository tr = new Transactions_Repository();
     
+    
+    public Employee getEmployee(String firstname)
+    {
+        Employee employee = new Employee();
+        if (er.getEmployeeByFirstname(firstname) != null)
+            employee = er.getEmployeeByFirstname(firstname);
+        return employee;
+    }
     /**
      * Används vid "inloggningen"
      * @param SSNx
@@ -55,9 +65,9 @@ public class AdminController { //Se över användandet av String vs voidmetoder
     }
     
     public void addCustomer(String SSN, String firstname, String lastname, String telephoneNr,
-            String email, int pincode)
+            String email, int pincode, int employeeId)
     {
-        cus.addCustomer(SSN, firstname, lastname, telephoneNr, email, pincode, pincode); //får se med denna, anställd...
+        cus.addCustomer(SSN, firstname, lastname, telephoneNr, email, pincode, employeeId); //får se med denna, anställd...
     }
     
     
@@ -86,9 +96,9 @@ public class AdminController { //Se över användandet av String vs voidmetoder
      * @param amount
      * @param accountId 
      */
-    public void withdraw(double amount, int accountId)
+    public void withdraw(int accountId, double amount)
     {
-        tr.withdrawTransaction(amount, accountId);
+        tr.withdrawTransaction(accountId, amount);
     }
     
     /**
@@ -96,8 +106,19 @@ public class AdminController { //Se över användandet av String vs voidmetoder
      * @param amount
      * @param accountId 
      */
-    public void deposit(double amount, int accountId)
+    public void deposit(int accountId, double amount)
     {
-        tr.depositTransaction(amount, accountId);
+        tr.depositTransaction(accountId, amount);
     }
+    
+    public Account getAccountById(int id)
+    {
+        Account account = new Account();
+        if (ar.getAccountById(id) != null)
+            account = ar.getAccountById(id);
+        System.out.println(account.getName());
+        return account;
+        
+    }
+    
 }

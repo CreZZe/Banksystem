@@ -23,7 +23,8 @@ public class Customer_Repository {
     public Customer_Repository() {
 
         try {
-            p.load(new FileInputStream("src/Banksystem/Settings.properties"));
+            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
+                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,10 +116,12 @@ public class Customer_Repository {
     }
 
     public Customer getCustomerByAccountId(int accountId) {
+        System.out.println("hejhejehje");
         Customer customer = new Customer();
         Employee employee = er.getEmployeeByAccountIdViaCust(accountId);
+        System.out.println("passerade");
         ResultSet rs = null;
-        String query = "select customer.id, customer.SSNr, customer.firstname, customer.lastname,"
+        String query = "select customer.id, customer.SSNr, customer.firstname, customer.lastname, "
                 + "customer.telephoneNr, customer.email, customer.pincode from customer "
                 + "inner join accounts on accounts.customerId=customer.id where accounts.id = ?";
 
@@ -126,21 +129,23 @@ public class Customer_Repository {
                 p.getProperty("name"),
                 p.getProperty("password"));
                 PreparedStatement stmt = con.prepareStatement(query)) {
-
-            stmt.setString(1, accountId + "");
+            System.out.println("halvvägs");
+            stmt.setInt(1, accountId);
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
-                                        rs.getString(""), rs.getString(""), rs.getInt(""), employee);
+                customer = new Customer(rs.getInt("id"), rs.getString("SSNr"), rs.getString("firstname"), 
+                                        rs.getString("lastname"),
+                                        rs.getString("telephoneNr"), rs.getString("email"), rs.getInt("pincode"), employee);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("fångade customer");
         return customer;
     }
     public String addCustomer(String SSN, String firstname, String lastname, String telephoneNr,
-            String email, int pincode, Employee employee) { //eller utan errorhantering
+            String email, int pincode, int employeeId) { //eller utan errorhantering
 
         ResultSet rs = null;
         String query = "call addCustomer(?,?,?,?,?,?,?)";
@@ -157,6 +162,7 @@ public class Customer_Repository {
             stmt.setString(4, telephoneNr);
             stmt.setString(5, email);
             stmt.setInt(6, pincode);
+            stmt.setInt(7, employeeId);
 
             rs = stmt.executeQuery();
 
@@ -179,7 +185,7 @@ public class Customer_Repository {
             String email, int pincode) { //eller utan errorhantering
 
         ResultSet rs = null;
-        String query = "call addCustomerInformation(?,?,?,?,?,?,?)";
+        String query = "call addCustomerInformation(?,?,?,?,?,?)";
         String errormessage = "";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),

@@ -21,16 +21,18 @@ import java.util.stream.Collectors;
 
 public class Account_Repository {
 
-    private Customer_Repository cr;
-    private Employee_Repository ee;
-    private Category_Repository cg;
+    private Customer_Repository cr = new Customer_Repository();
+    private Employee_Repository ee = new Employee_Repository();
+    private Category_Repository cg = new Category_Repository();
     private Connection con;
     private Properties p = new Properties();
 
     public Account_Repository() {
 
         try {
-            p.load(new FileInputStream("src/Banksystem/Settings.properties"));
+            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
+                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
+            
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,12 +186,13 @@ public class Account_Repository {
     }
 
     public Account getAccountById(int id) { // eller namn w/e
-
+        System.out.println(id);
+        System.out.println("hejdå");
         Account account = new Account();
         Customer customer = cr.getCustomerByAccountId(id);
         Employee employee = ee.getEmployeeByAccountId(id);
         Category category = cg.getCategoryByAccountId(id);
-
+        System.out.println("heheheh");
         ResultSet rs = null;
         String query = "select accounts.id, accounts.name, accounts.dateofcreation, balance from accounts "
                 + "where accounts.id = ?";
@@ -203,13 +206,15 @@ public class Account_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                account = new Account(rs.getInt("id"), rs.getString("name"), rs.getDate("date"),
+                account = new Account(rs.getInt("id"), rs.getString("name"), rs.getDate("dateofcreation"),
                         rs.getDouble("balance"), category, customer, employee);
                 //skulle man kunna slänga in en metod direkt här istället?
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("hohoho");
+        System.out.println(account.getBalance());
         return account;
     }
 }

@@ -19,13 +19,37 @@ public class Employee_Repository {
     public Employee_Repository() {
 
         try {
-            p.load(new FileInputStream("src/Banksystem/Settings.properties"));
-            Class.forName("com.mysql.jdbc.Driver");
+            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
+                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public Employee getEmployeeByFirstname(String firstname) { //good stuff
+        Employee employee = new Employee();
+        ResultSet rs = null;
+        String query = "select employee.id, employee.firstname, employee.lastname "
+                + "from employee "
+                + "where employee.firstname = ?";
+
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+                PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, firstname + "");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                employee = new Employee(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return employee;
+    }
+    
     public Employee getEmployeeByCustomerSSN(String SSN) {
         Employee employee = new Employee();
         ResultSet rs = null;
@@ -125,32 +149,35 @@ public class Employee_Repository {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("fångade employee");
         return employee;
     }
     public Employee getEmployeeByAccountIdViaCust(int id) {
         Employee employee = new Employee();
         ResultSet rs = null;
-        String query = "select employee.id, employee.firstname, employee.lastname from employee"
-                + "inner join customer"
+        System.out.println("tjohoo");
+        String query = "select employee.id, employee.firstname, employee.lastname from employee "
+                + "inner join customer "
                 + "on customer.employeeId = employee.id "
-                + "inner join accounts"
-                + "on accounts.customerId = customer.id"
+                + "inner join accounts "
+                + "on accounts.customerId = customer.id "
                 + "where accounts.id = ?";
-
+        System.out.println("weee");
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
                 p.getProperty("password"));
                 PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setString(1, id + "");
+            stmt.setInt(1, id);
             rs = stmt.executeQuery();
-
+            System.out.println("blabla");
             while (rs.next()) {
                 employee = new Employee(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("fångade");
         return employee;
     }
 }
