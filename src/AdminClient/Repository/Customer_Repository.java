@@ -146,7 +146,7 @@ public class Customer_Repository {
     }
     public String addCustomer(String SSN, String firstname, String lastname, String telephoneNr,
             String email, int pincode, int employeeId) { //eller utan errorhantering
-
+        System.out.println("hola!");
         ResultSet rs = null;
         String query = "call addCustomer(?,?,?,?,?,?,?)";
         String errormessage = "";
@@ -178,6 +178,7 @@ public class Customer_Repository {
             e.printStackTrace();
             return "Could not add elf " + SSN;
         }
+        System.out.println("waow");
         return SSN + " was added to database.";
     }
 

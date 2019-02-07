@@ -97,11 +97,12 @@ public class AdminClient extends Application {
         minus.setOnAction(e -> System.out.println("Ta Ut pengar"));// Ta ut pengar från konton
         hämta.setText("Hämta");
         Label saldolabel = new Label();
+        Button deleteAccount = new Button("delete");
 
         hämta.setOnAction(e -> {
             System.out.println("visa saldo ");
             //saldolabel.setText("");
-
+            
             account = ar.getAccountById(Integer.parseInt(kontoTextField.getText()));
             System.out.println("detta " + account.getName());
             if (account.getName()!= null) // if correct
@@ -110,6 +111,28 @@ public class AdminClient extends Application {
                 System.out.println("TRUE!!");
                 //primaryStage.setScene(scene2);
             }
+
+        }); //visa saldot på konto
+        
+        deleteAccount.setOnAction(e -> {
+            
+            //funkar bra
+            
+            account = ar.getAccountById(Integer.parseInt(kontoTextField.getText()));
+            if (account.getName() != null)
+            {
+            System.out.println(account.getCustomer().getSSN());
+            System.out.println("detta " + account.getName());
+            ar.deleteCustomerAccount(account.getCustomer().getSSN(), account.getName());
+            }
+            //SSNX & acc name
+            
+//            if (account.getName()!= null) // if correct
+//            {
+//                saldolabel.setText(Double.toString(account.getBalance()));
+//                System.out.println("TRUE!!");
+//                //primaryStage.setScene(scene2);
+//            }
 
         }); //visa saldot på konton
         
@@ -157,7 +180,7 @@ public class AdminClient extends Application {
         HBox hbox2 = new HBox();
         hbox2.setPadding(new Insets(15, 12, 15, 12));
         hbox2.setSpacing(10);
-        hbox1.getChildren().addAll(kontoNR, kontoTextField, hämta);
+        hbox1.getChildren().addAll(kontoNR, kontoTextField, hämta, deleteAccount);
         hbox2.getChildren().addAll(överför, överförTextField, plus, minus);
         BorderPane border1 = new BorderPane();
         border1.setTop(hbox1);
@@ -210,20 +233,17 @@ public class AdminClient extends Application {
         pinBox.getChildren().addAll(pinLabel, pinField);
         
         skapa.setOnAction(e -> {
-            System.out.println("withdraw ");
+            System.out.println("skapa ");
             //saldolabel.setText("");
-            ar.createCustomerAccount(STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA, STYLESHEET_MODENA);
-            //account = ar.getAccountById(Integer.parseInt(kontoTextField.getText()));
-            //System.out.println("detta " + account.getName());
-            System.out.println("amount " + överförTextField.getText());
-            //ar.deposit(50000, 2);
-            ar.withdraw(Integer.parseInt(kontoTextField.getText()), Double.parseDouble(överförTextField.getText()));
-            if (account.getName()!= null) // if correct
-            {
-                saldolabel.setText(Double.toString(account.getBalance()));
-                System.out.println("TRUE!!");
-                //primaryStage.setScene(scene2);
-            }
+            ar.addCustomer(ssnrField.getText(), firstnameField.getText(), efternamnField.getText(), 
+                    phoneField.getText(), emailField.getText(), Integer.parseInt(pinField.getText()), employee.getId());
+            
+//            if (account.getName()!= null) // if correct
+//            {
+//                //saldolabel.setText(Double.toString(account.getBalance()));
+//                System.out.println("SKAPAT!!");
+//                //primaryStage.setScene(scene2);
+//            }
 
         }); //visa saldot på konton
         
