@@ -65,33 +65,44 @@ public class AdminClientGui extends Application {
         //Scene3 
         
         Label kontoNR= new Label("konto nr");
-        Label överför=new Label("Överför");
-        TextField kontoTextField= new TextField("Ange konto nr");
-        TextField överförTextField= new TextField("Ange pengar");
+        Label överför= new Label("Överför");
+        Label saldo = new Label();
+        VBox vbox3 = new VBox();
+        
+        HBox hbox1= new HBox();
+        HBox hbox2= new HBox();
+        HBox hbox3= new HBox();
+        
+        vbox3.getChildren().addAll(hbox1,hbox2,hbox3);
+        TextField kontoTextField = new TextField("Ange konto nr");
+        TextField överförTextField = new TextField("Ange pengar");
+        TextField ränta = new TextField("Ange ränta");
         Button hämta= new Button();
         Button plus= new Button();
         Button minus= new Button();
-//        Button submit1= new Button();
-//        submit1.setText("Submit");
+        Button godkänn= new Button();
+        godkänn.setText("submit");
         plus.setText("+");
         plus.setOnAction(e->System.out.println("adda pengar till konton"));// adda pengar till konton
         minus.setText("-");
         minus.setOnAction(e->System.out.println("Ta Ut pengar"));// Ta ut pengar från konton
         hämta.setText("Hämta");
-        hämta.setOnAction(e->System.out.println("visa saldo "));//visa saldot på konton
-        HBox hbox1= new HBox();
+        hämta.setOnAction(e->{System.out.println("adda pengar till konton");
+                              saldo.setText(kontoTextField.getText());
+                              hbox1.getChildren().add(saldo);});
+        
         hbox1.setPadding(new Insets(15, 12, 15, 12)); 
         hbox1.setSpacing(10);
-        HBox hbox2= new HBox();
         hbox2.setPadding(new Insets(15, 12, 15, 12)); 
         hbox2.setSpacing(10);
+        hbox3.setPadding(new Insets(15, 12, 15, 12)); 
+        hbox3.setSpacing(10);
         hbox1.getChildren().addAll(kontoNR,kontoTextField,hämta);
         hbox2.getChildren().addAll(överför,överförTextField,plus,minus);
-        BorderPane border1= new BorderPane();
-        border1.setTop(hbox1);
-        border1.setCenter(hbox2);
+        hbox3.getChildren().addAll(ränta,godkänn);
+        
 //        border1.setBottom(submit1);
-        scene3 = new Scene(border1,350,250);
+        scene3 = new Scene(vbox3,380,180);
         
         primaryStage.setTitle("Admin Login");
         primaryStage.setScene(scene1);
