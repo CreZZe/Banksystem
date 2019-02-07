@@ -34,7 +34,15 @@ public class Customer {
     public void setId(int id) {
         this.id = id;
     }
-
+    
+    public String getSSN() {
+        return SSN;
+    }
+    
+    public void setId(String SSN) {
+        this.SSN = SSN;
+    }
+    
     public String getFirstname() {
         return firstname;
     }
