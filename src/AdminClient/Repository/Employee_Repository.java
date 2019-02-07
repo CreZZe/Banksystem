@@ -19,8 +19,7 @@ public class Employee_Repository {
     public Employee_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
+            p.load(new FileInputStream("src\\AdminClient\\Settings.properties"));
         } catch (Exception e) {
             e.printStackTrace();
         }

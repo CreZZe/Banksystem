@@ -37,8 +37,8 @@ public class Customer_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
-                                        rs.getString(""), rs.getString(""), rs.getInt(""));
+//                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
+//                                        rs.getString(""), rs.getString(""), rs.getInt(""));
             }
         } catch (Exception e) {
             e.printStackTrace();

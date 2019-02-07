@@ -20,9 +20,8 @@ public class Category_Repository {
     public Category_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
-            Class.forName("com.mysql.jdbc.Driver");
+            p.load(new FileInputStream("src\\AdminClient\\Settings.properties"));
+//            Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
         }
