@@ -10,12 +10,14 @@ public class Category {
     private int id;
     private String name;
     private double interest;
+    private double amortization;
     
- public Category(int id, String name, double interest){
+ public Category(int id, String name, double interest, double amortization){
 
         this.id = id;
         this.name = name;
         this.interest = interest;
+        this.amortization = amortization;
     }
 
     public Category(){}
@@ -43,4 +45,12 @@ public class Category {
     public void setInterest(double interest) {
         this.interest = interest;
     }
+    public double getAmortization() {
+        return amortization;
+    }
+
+    public void setAmortization(double amortization) {
+        this.amortization = amortization;
+    }
+
 }
