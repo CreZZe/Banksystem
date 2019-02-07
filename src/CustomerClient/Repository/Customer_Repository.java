@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Customer_Repository {
 
@@ -20,9 +22,8 @@ public class Customer_Repository {
     public Customer_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
-            Class.forName("com.mysql.jdbc.Driver");
+            p.load(new FileInputStream("src\\CustomerClient\\Settings.properties"));
+//            Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,12 +88,12 @@ public class Customer_Repository {
         Employee employee = er.getEmployeeByTransactionsIdViaCust(id);
         ResultSet rs = null;
         String query = "select customer.id, customer.SSNr, customer.firstname, customer.lastname,"
-                + "customer.telephoneNr, customer.email, customer.pincode from customer"
-                + "inner join accounts"
-                + "on accounts.customerId = customer.id"
-                + "inner join transactions"
-                + "on transactions.accountsId = accounts.id"
-                + "where transactions.id = ?";
+                + " customer.telephoneNr, customer.email, customer.pincode from customer"
+                + " inner join accounts"
+                + " on accounts.customerId = customer.id"
+                + " inner join transactions"
+                + " on transactions.accountsId = accounts.id"
+                + " where transactions.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -103,8 +104,8 @@ public class Customer_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
-                        rs.getString(""), rs.getString(""), rs.getInt(""), employee);
+                customer = new Customer(rs.getInt("id"), rs.getString("ssNr"), rs.getString("firstname"), rs.getString("lastname"),
+                        rs.getString("telephoneNr"), rs.getString("email"), rs.getInt("pincode"), employee);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +119,7 @@ public class Customer_Repository {
         Employee employee = er.getEmployeeByAccountIdViaCust(accountId);
         System.out.println("passerade");
         ResultSet rs = null;
-        String query = "select customer.id, customer.SSNr, customer.firstname, customer.lastname, "
+        String query = "select customer.id, customer.ssNr, customer.firstname, customer.lastname, "
                 + "customer.telephoneNr, customer.email, customer.pincode from customer "
                 + "inner join accounts on accounts.customerId=customer.id where accounts.id = ?";
 
@@ -131,7 +132,7 @@ public class Customer_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSNr"), rs.getString("firstname"), 
+                customer = new Customer(rs.getInt("id"), rs.getString("ssNr"), rs.getString("firstname"), 
                                         rs.getString("lastname"),
                                         rs.getString("telephoneNr"), rs.getString("email"), rs.getInt("pincode"), 
                         employee);
@@ -214,5 +215,32 @@ public class Customer_Repository {
             return "Could not add elf " + SSN;
         }
         return SSN + " was added to database.";
+    }
+    
+    public boolean checkPincode(String SSN, int pin) {
+        
+        ResultSet rs = null;
+        String query = "CALL pinChecker(?, ?, ?)";
+        String errormessage = "";
+        boolean isPinCorrect = false;
+        
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"), 
+                p.getProperty("name"), 
+                p.getProperty("password"));
+                CallableStatement stmt = con.prepareCall(query)) {
+            stmt.setString(1, SSN);
+            stmt.setInt(2, pin);
+            stmt.registerOutParameter(3, java.sql.Types.BOOLEAN);
+            
+            rs = stmt.executeQuery();
+
+            
+            isPinCorrect = stmt.getBoolean(3);            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer_Repository.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return isPinCorrect;
     }
 }

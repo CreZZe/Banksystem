@@ -28,8 +28,7 @@ public class Transactions_Repository {
     public Transactions_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
+            p.load(new FileInputStream("src\\CustomerClient\\Settings.properties"));
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,7 +42,7 @@ public class Transactions_Repository {
 
         ResultSet rs = null; //möjligt att denna ska bli en procedure med möjlighet till errorhantering
         String query = "select id from transactions where accountsId= ?"
-                + "and dateoftransaction >= ? and dateoftransaction < ?";
+                + " and dateoftransaction >= ? and dateoftransaction < ? order by dateoftransaction desc";
         String errormessage = "";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
@@ -58,7 +57,42 @@ public class Transactions_Repository {
             stmt.setInt(1, accountId);
             stmt.setDate(2, fromDate);
             stmt.setDate(3, toDate);
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                allTransactionIds.add(rs.getInt("id"));
+            }
 
+            transactions = allTransactionIds.stream().map(i -> getTransactionsById(i)).collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return transactions;
+    }
+    
+    //Lista på alla transaktioner kopplat till ett specifikt konto
+    public List<Transactions> getAllTransactionsFromLastMonth(int accountId, Date fromDate) {
+        List<Transactions> transactions = new ArrayList<>();
+        List<Integer> allTransactionIds = new ArrayList<>();
+
+        ResultSet rs = null; //möjligt att denna ska bli en procedure med möjlighet till errorhantering
+        String query = "select id from transactions where accountsId= ?"
+                + " and dateoftransaction >= ? order by dateoftransaction desc";
+        String errormessage = "";
+
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+                CallableStatement stmt = con.prepareCall(query)) {
+            /*
+            select id from transactions where accountsId=2
+            and dateoftransaction >= '2019/01/01' and dateoftransaction < '2019/06/28'
+             */
+            //select id from transaction where accId and date and date
+            stmt.setInt(1, accountId);
+            stmt.setDate(2, fromDate);
+            
             rs = stmt.executeQuery();
             while (rs.next()) {
                 allTransactionIds.add(rs.getInt("id"));
@@ -76,8 +110,8 @@ public class Transactions_Repository {
         Transactions transaction = new Transactions();
         Account account = ar.getAccountByTransactionsId(id);
         ResultSet rs = null;
-        String query = "select transactions.id, dateoftransaction, amount from transactions "
-                + "inner join accounts on transactions.accountsId = accounts.id where transactions.id = ?";
+        String query = "select transactions.id, transactions.dateoftransaction, transactions.amount from transactions "
+                + " inner join accounts on transactions.accountsId = accounts.id where transactions.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),

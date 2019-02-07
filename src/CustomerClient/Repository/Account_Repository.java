@@ -28,10 +28,9 @@ public class Account_Repository {
     public Account_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
+            p.load(new FileInputStream("src\\CustomerClient\\Settings.properties"));
             
-            Class.forName("com.mysql.jdbc.Driver");
+//            Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,8 +46,8 @@ public class Account_Repository {
 
         ResultSet rs = null;
         String query = "select accounts.id, name, dateofcreation, balance from accounts "
-                + "inner join transactions"
-                + "on transactions.accountsId = accounts.id where transactions.id = ?;"; //får ut rätt account
+                + " inner join transactions"
+                + " on transactions.accountsId = accounts.id where transactions.id = ?;"; //får ut rätt account
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -102,8 +101,8 @@ public class Account_Repository {
         List<Integer> allAccountIds = new ArrayList<>();
         ResultSet rs = null;
         String query = "SELECT accounts.id FROM accounts "
-                + "inner join customer on accounts.customerId = customer.id "
-                + "where customer.ssnr = ?";
+                + " inner join customer on accounts.customerId = customer.id "
+                + " where customer.ssnr = ?";
         //String errormessage = "";
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -184,16 +183,13 @@ public class Account_Repository {
     }
 
     public Account getAccountById(int id) { // eller namn w/e
-        System.out.println(id);
-        System.out.println("hejdå");
         Account account = new Account();
         Customer customer = cr.getCustomerByAccountId(id);
         Employee employee = ee.getEmployeeByAccountId(id);
         Category category = cg.getCategoryByAccountId(id);
-        System.out.println("heheheh");
         ResultSet rs = null;
         String query = "select accounts.id, accounts.name, accounts.dateofcreation, balance from accounts "
-                + "where accounts.id = ?";
+                + " where accounts.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -211,8 +207,6 @@ public class Account_Repository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("hohoho");
-        System.out.println(account.getBalance());
         return account;
     }
 }

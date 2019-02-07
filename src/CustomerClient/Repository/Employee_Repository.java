@@ -20,8 +20,7 @@ public class Employee_Repository {
     public Employee_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
+            p.load(new FileInputStream("src\\CustomerClient\\Settings.properties"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -78,13 +77,13 @@ public class Employee_Repository {
         Employee employee = new Employee();
         ResultSet rs = null;
         String query = "select employee.id, employee.firstname, employee.lastname from employee"
-                + "inner join customer"
-                + "on customer.employeeId = employee.id "
-                + "inner join accounts"
-                + "on accounts.customerId = customer.id"
-                + "inner join transactions"
-                + "on transactions.accountsId = accounts.id"
-                + "where transactions.id = ?";
+                + " inner join customer"
+                + " on customer.employeeId = employee.id "
+                + " inner join accounts"
+                + " on accounts.customerId = customer.id"
+                + " inner join transactions"
+                + " on transactions.accountsId = accounts.id"
+                + " where transactions.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -107,11 +106,11 @@ public class Employee_Repository {
         Employee employee = new Employee();
         ResultSet rs = null;
         String query = "select employee.id, employee.firstname, employee.lastname from employee"
-                + "inner join accounts"
-                + "on accounts.employeeId = employee.id"
-                + "inner join transactions"
-                + "on transactions.accountsId = accounts.id"
-                + "where transactions.id = ?";
+                + " inner join accounts"
+                + " on accounts.employeeId = employee.id"
+                + " inner join transactions"
+                + " on transactions.accountsId = accounts.id"
+                + " where transactions.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),

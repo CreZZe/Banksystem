@@ -7,11 +7,17 @@ package CustomerClient.Controller;
 import CustomerClient.Models.Account;
 import CustomerClient.Models.Customer;
 import CustomerClient.Models.Employee;
+import CustomerClient.Models.Transactions;
 import CustomerClient.Repository.Account_Repository;
 import CustomerClient.Repository.Category_Repository;
 import CustomerClient.Repository.Customer_Repository;
 import CustomerClient.Repository.Employee_Repository;
 import CustomerClient.Repository.Transactions_Repository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 
 public class ClientController {
@@ -117,6 +123,33 @@ public class ClientController {
         System.out.println(account.getName());
         return account;
         
+    }
+    
+    /**
+     * Hämtar alla konton för en viss kund
+     * @param SSN
+     * @return List<Account>
+     */
+    public List<Account> getAllAccountsBySSN(String SSN) {
+        return ar.getAllAccountsBySSN(SSN);
+    }
+    
+    /**
+     * Kontrollerar inloggning (pin och personnummer)
+     * @param SSN
+     * @param pin
+     * @return true/false
+     */
+    public boolean checkPincode(String SSN, int pin) {
+        return cus.checkPincode(SSN, pin);
+    }
+    
+    public List<Transactions> getLatestTransactions(int accountId) {
+        Calendar cal = Calendar.getInstance();
+        
+        cal.add(Calendar.MONTH, -1);
+        Date aMonthBack = (Date) cal.getTime();
+        return tr.getAllTransactionsFromLastMonth(accountId, new java.sql.Date(aMonthBack.getTime()));
     }
 }
 

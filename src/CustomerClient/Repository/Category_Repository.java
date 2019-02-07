@@ -19,8 +19,7 @@ public class Category_Repository {
     public Category_Repository() {
 
         try {
-            p.load(new FileInputStream("C:\\Users\\admin\\Documents\\"
-                    + "NetBeansProjects\\Banksystem\\src\\AdminClient\\Settings.properties"));
+            p.load(new FileInputStream("src\\CustomerClient\\Settings.properties"));
             Class.forName("com.mysql.jdbc.Driver");
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,12 +33,14 @@ public class Category_Repository {
         Category category = new Category();
         ResultSet rs = null;
         String query = "select category.id, category.name, category.interest, "
-                + "category.amortization from category"
-                + "inner join accounts"
-                + "on accounts.customerId = customer.id"
-                + "inner join transactions"
-                + "on transactions.accountsId = accounts.id"
-                + "where transactions.id = ?";
+                + " category.amortization from category"
+                + " inner join accounts"
+                + " on accounts.categoryId = category.id"
+                + " inner join customer"
+                + " on customer.id = accounts.customerId"
+                + " inner join transactions"
+                + " on transactions.accountsId = accounts.id"
+                + " where transactions.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
@@ -50,7 +51,7 @@ public class Category_Repository {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                category = new Category(rs.getInt("id"), rs.getString("SSN"), rs.getDouble("name"),
+                category = new Category(rs.getInt("id"), rs.getString("name"), rs.getDouble("interest"),
                         rs.getDouble("amortization"));
             }
         } catch (Exception e) {
@@ -63,7 +64,7 @@ public class Category_Repository {
         Category category = new Category();
         ResultSet rs = null;
         String query = "select category.id, category.name, category.interest, category.amortization from category "
-                + "inner join accounts on accounts.categoryId=category.id where accounts.id = ?";
+                + " inner join accounts on accounts.categoryId=category.id where accounts.id = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
