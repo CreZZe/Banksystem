@@ -171,7 +171,7 @@ public class AdminClient extends Application {
         primaryStage.show();
         
         
-        
+        //Scene 4
         Label ssnr = new Label("konto nr");
         TextField ssnrField = new TextField("Ange ssnr");
         Label firstname = new Label("Förnamn");
@@ -235,6 +235,19 @@ public class AdminClient extends Application {
 //        border1.setBottom(saldolabel);
 ////        border1.setBottom(submit1);
         scene4 = new Scene(vbox2, 350, 250);
+        
+        
+        
+        
+        //Scene 5
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
 //    @Override
