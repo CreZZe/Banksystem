@@ -52,8 +52,8 @@ public class Employee_Repository {
     public Employee getEmployeeByCustomerSSN(String SSN) {
         Employee employee = new Employee();
         ResultSet rs = null;
-        String query = "select employee.id, employee.name from employee "
-                + "inner join customer on customer.employeeId=employee.id where customer.SSN = ?";
+        String query = "select employee.id, employee.firstname, employee.lastname from employee "
+                + "inner join customer on customer.employeeId=employee.id where customer.ssnr = ?";
 
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),

@@ -36,7 +36,15 @@ public class AdminController { //Se över användandet av String vs voidmetoder
      * @return customer-objekt
      */
     public Customer getCustomer(String SSNx){ 
-        Customer customer = cus.getCustomerBySSN(SSNx);
+        Customer customer = new Customer();
+        if (cus.getCustomerBySSN(SSNx) != null)
+        {
+            System.out.println("hallå");
+            customer = cus.getCustomerBySSN(SSNx);
+            System.out.println("WOOPWOOP");
+        }
+        System.out.println(customer.getFirstname());
+        //Customer customer = cus.getCustomerBySSN(SSNx);
         
         return customer;
     }
@@ -61,8 +69,11 @@ public class AdminController { //Se över användandet av String vs voidmetoder
     public void UpdateCustomerInformation(String SSN, String firstname, String lastname, String telephoneNr,
             String email, int pincode)
     {
+        System.out.println(SSN + " " + firstname + " " + lastname + " " + telephoneNr + " " + email + " " + pincode);
+        
         cus.addCustomerInformation(SSN, firstname, lastname, telephoneNr, email, pincode);
-    }
+        System.out.println("klart!");
+    } //TODO
     
     public void addCustomer(String SSN, String firstname, String lastname, String telephoneNr,
             String email, int pincode, int employeeId)
@@ -79,6 +90,7 @@ public class AdminController { //Se över användandet av String vs voidmetoder
      * @param categoryName 
      */
     public void createCustomerAccount(String SSNx, String employeeName, String accName, String categoryName) {
+        System.out.println("hej");
         ar.createCustomerAccount(SSNx, employeeName, accName, categoryName);
     }
     /**
@@ -119,6 +131,10 @@ public class AdminController { //Se över användandet av String vs voidmetoder
         System.out.println(account.getName());
         return account;
         
+    }
+    public void changeInterest(int id, double interest)
+    {
+        cr.changeInterest(id, interest);
     }
     
 }

@@ -14,7 +14,7 @@ public class Customer {
     private String email;
     private int pincode;
     private Employee employee;
-    
+        
     public Customer(int id, String SSN, String firstname, String lastname, String telephoneNr, 
             String email, int pincode, Employee employee){
 
