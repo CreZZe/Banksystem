@@ -6,10 +6,12 @@ package AdminClient.Repository;
 
 import AdminClient.Models.Category;
 import java.io.FileInputStream;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Category_Repository {
@@ -58,6 +60,37 @@ public class Category_Repository {
             e.printStackTrace();
         }
         return category;
+    }
+    public String changeInterest(int accId, double newInterest) {
+
+        ResultSet rs = null;
+        String query = "call changeInterest(?,?)";
+        String errormessage = "";
+        //System.out.println("kom hit iaf");
+
+        try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
+                p.getProperty("name"),
+                p.getProperty("password"));
+                CallableStatement stmt = con.prepareCall(query)) {
+
+            stmt.setInt(1, accId);
+            stmt.setDouble(2, newInterest);
+
+            rs = stmt.executeQuery();
+            System.out.println("gick bra");
+            while (rs.next()) {
+                errormessage = rs.getString("error");
+            }
+            if (!errormessage.equals("")) {
+                return errormessage;
+            }
+        } catch (SQLException e) {
+            return e.getMessage() + "(" + e.getErrorCode() + ")";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Could not add elf";
+        }
+        return " was added to database.";
     }
     
     public Category getCategoryByAccountId(int accountId) {

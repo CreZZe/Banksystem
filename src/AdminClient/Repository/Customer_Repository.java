@@ -35,10 +35,10 @@ public class Customer_Repository {
         Customer customer = new Customer();
         Employee employee = er.getEmployeeByCustomerSSN(SSNx);
         ResultSet rs = null;
-        String query = "select customer.id, customer.SSN, customer.firstname, customer.lastname, "
+        String query = "select customer.id, customer.ssnr, customer.firstname, customer.lastname, "
                 + "customer.telephoneNr, customer.email, customer.pincode from customer "
-                + "where customer.SSN = ?";
-
+                + "where customer.ssnr = ?";
+        System.out.println("hejehejej");
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
                 p.getProperty("password"));
@@ -46,10 +46,11 @@ public class Customer_Repository {
 
             stmt.setString(1, SSNx + "");
             rs = stmt.executeQuery();
-
+            System.out.println("blabla");
             while (rs.next()) {
-                customer = new Customer(rs.getInt("id"), rs.getString("SSN"), rs.getString("name"), rs.getString(""),
-                        rs.getString(""), rs.getString(""), rs.getInt(""), employee);
+                customer = new Customer(rs.getInt("id"), rs.getString("ssnr"), rs.getString("firstname"), 
+                        rs.getString("lastname"),
+                        rs.getString("telephoneNr"), rs.getString("email"), rs.getInt("pincode"), employee);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,11 +185,17 @@ public class Customer_Repository {
 
     public String addCustomerInformation(String SSN, String firstname, String lastname, String telephoneNr,
             String email, int pincode) { //eller utan errorhantering
-
+//        SSN = "9801010003";
+       //   firstname = null;
+//        lastname = "Hej";
+//        telephoneNr = "hej";
+//        email = "hej";
+//        pincode = 5;
+        // "" verkar inte anses vara == null
         ResultSet rs = null;
-        String query = "call addCustomerInformation(?,?,?,?,?,?)";
+        String query = "call updateCustomerInformation(?,?,?,?,?,?)";
         String errormessage = "";
-
+        System.out.println("hejhopp");
         try (Connection con = DriverManager.getConnection(p.getProperty("connectionString"),
                 p.getProperty("name"),
                 p.getProperty("password"));
@@ -202,7 +209,7 @@ public class Customer_Repository {
             stmt.setInt(6, pincode);
 
             rs = stmt.executeQuery();
-
+            System.out.println("klappat");
             while (rs.next()) {
                 errormessage = rs.getString("error");
             }

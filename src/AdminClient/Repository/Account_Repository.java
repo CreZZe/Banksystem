@@ -126,7 +126,7 @@ public class Account_Repository {
     }
 
     public String createCustomerAccount(String SSNx, String employeeName, String accName, String categoryName) {
-
+        System.out.println("woop");
         ResultSet rs = null;
         String query = "call createCustomerAccount(?,?,?,?)";
         String errormessage = "";
@@ -140,6 +140,7 @@ public class Account_Repository {
             stmt.setString(2, employeeName);
             stmt.setString(3, accName);
             stmt.setString(4, categoryName);
+            System.out.println("tjoo");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 errormessage = rs.getString("error");
